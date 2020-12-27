@@ -20,7 +20,19 @@ fn main() {
 		info!("Opening first device");
 		let device = devices.tics.remove(0).open().expect("Unable to open device");
 		info!("Running firmware {}", device.firmware);
+
+		device.engage().expect("Unable to engage the motors");
+
+		let variables = device.variables().expect("Unable to read variables from device");
+		let position = variables.position();
+		info!("Current Position: {}", position);
+
+		let new_position = if position < 0 { 200 } else { -200 };
+		device.set_position(new_position).expect("Unable to set position");
+
 		info!("Leaving safe start");
 		device.finish_startup().expect("Unable to finish startup");
+		std::thread::sleep(std::time::Duration::from_secs(2));
+		device.idle().expect("Unable to idle the motors");
 	}
 }

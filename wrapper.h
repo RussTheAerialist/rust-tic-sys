@@ -1,10 +1,12 @@
 // #include <libpololu-tic-1/tic.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 struct tic_device;
 struct tic_error;
 struct tic_handle;
+struct tic_variables;
 
 const char * tic_error_get_message(const struct tic_error *);
 void tic_error_free(struct tic_error *);
@@ -25,3 +27,9 @@ void tic_handle_close(struct tic_handle *);
 struct tic_error * tic_exit_safe_start(struct tic_handle *);
 struct tic_error * tic_set_target_position(struct tic_handle *, int32_t position);
 struct tic_error * tic_reset_command_timeout(struct tic_handle *);
+struct tic_error * tic_deenergize(struct tic_handle *);
+struct tic_error * tic_energize(struct tic_handle *);
+
+struct tic_error * tic_get_variables(struct tic_handle *, struct tic_variables ** variables, bool clear_errors_occurred);
+void tic_variables_free(struct tic_variables *);
+int32_t tic_variables_get_current_position(const struct tic_variables *);

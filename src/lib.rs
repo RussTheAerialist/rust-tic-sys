@@ -8,6 +8,7 @@ mod ffi {
 }
 
 mod device;
+mod variables;
 
 pub use device::Device;
 use ffi::*;

@@ -1,5 +1,6 @@
 use super::ffi;
 use super::{Result, TicError};
+use crate::variables::Variables;
 
 #[derive(Debug)]
 pub struct Device {
@@ -68,6 +69,22 @@ impl OpenDevice {
 		error.ok(|| ())
 	}
 
+	pub fn idle(&self) -> Result<()> {
+		let error : TicError = unsafe {
+			ffi::tic_deenergize(self.handle).into()
+		};
+
+		error.ok(|| ())
+	}
+
+	pub fn engage(&self) -> Result<()> {
+		let error : TicError = unsafe {
+			ffi::tic_energize(self.handle).into()
+		};
+
+		error.ok(|| ())
+	}
+
 	pub fn set_position(&self, position: i32) -> Result<()> {
 		let error : TicError = unsafe {
 			ffi::tic_set_target_position(self.handle, position).into()
@@ -76,6 +93,18 @@ impl OpenDevice {
 		error.ok(|| ())
 	}
 
+	pub fn variables(&self) -> Result<Variables> {
+		let mut variables : *mut ffi::tic_variables = std::ptr::null_mut();
+		let variable_ptr : *mut *mut ffi::tic_variables = &mut variables;
+
+		let error : TicError = unsafe {
+			ffi::tic_get_variables(self.handle, variable_ptr, false).into()
+		};
+
+		error.ok(move || Variables {
+			variables
+		})
+	}
 }
 
 impl Drop for OpenDevice {
