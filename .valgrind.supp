@@ -1,0 +1,35 @@
+{
+   env_logger_1
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_ZN5alloc5alloc5alloc17h34319cf25497bb28E
+   fun:_ZN5alloc5alloc6Global10alloc_impl17h1198302b5f5b0299E
+   fun:_ZN62_$LT$alloc..alloc..Global$u20$as$u20$core..alloc..AllocRef$GT$5alloc17h1698e77b89df2e20E
+   fun:_ZN5alloc7raw_vec11finish_grow17hc099e7acd91d1fefE
+   fun:_ZN5alloc7raw_vec19RawVec$LT$T$C$A$GT$14grow_amortized17hbb271c20c7fe3faeE
+   fun:_ZN5alloc7raw_vec19RawVec$LT$T$C$A$GT$11try_reserve17hf60aa5fdd222195aE
+   fun:_ZN5alloc7raw_vec19RawVec$LT$T$C$A$GT$7reserve17h9d42d56bbf28d6a4E
+   fun:_ZN5alloc3vec12Vec$LT$T$GT$7reserve17h15afe7a29f0a327dE
+   fun:_ZN5alloc3vec12Vec$LT$T$GT$4push17hf9429477e51df0e3E
+   fun:_ZN10env_logger6filter7Builder5parse17h61830ba5ab7713f2E
+   fun:_ZN10env_logger7Builder13parse_filters17h57c9ef57f9deee40E
+}
+{
+   env_logger_2
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_ZN5alloc5alloc5alloc17hc8e7eb169d23d895E
+   fun:_ZN5alloc5alloc6Global10alloc_impl17hed51ff75684d14f0E
+   fun:_ZN62_$LT$alloc..alloc..Global$u20$as$u20$core..alloc..AllocRef$GT$5alloc17h8d28466fb8e940ecE
+   fun:_ZN5alloc5alloc15exchange_malloc17h5930e9771f612b52E
+   fun:new<env_logger::Logger>
+   fun:_ZN10env_logger7Builder8try_init17h94ab2e991f6752d1E
+   fun:_ZN17pretty_env_logger19try_init_custom_env17hb794cd27ad5583cfE
+   fun:_ZN17pretty_env_logger8try_init17hf42aaf92c7a04bdcE
+   fun:_ZN7tic_sys4main17h6cfdb1b6504cead2E
+   fun:_ZN4core3ops8function6FnOnce9call_once17hb107f371526933a1E
+   fun:_ZN3std10sys_common9backtrace28__rust_begin_short_backtrace17h61c7e26a9bdbe225E
+   fun:_ZN3std2rt10lang_start28_$u7b$$u7b$closure$u7d$$u7d$17h2dc41456897d3d0bE
+}

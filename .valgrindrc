@@ -1,0 +1,1 @@
+--leak-check=full -s --show-leak-kinds=all --track-origins=yes --suppressions=./.valgrind.supp
