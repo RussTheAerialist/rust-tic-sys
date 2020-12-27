@@ -1,8 +1,9 @@
-use std::ptr::null_mut;
+#[macro_use] extern crate log;
 
 mod ffi {
     #![allow(non_camel_case_types)]
     #![allow(dead_code)]
+    #![allow(non_upper_case_globals)]
     include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 }
 
@@ -19,8 +20,16 @@ pub enum TicError {
 }
 
 impl TicError {
-    fn is_success(&self) -> bool {
+    pub(crate) fn is_success(&self) -> bool {
         self == &TicError::Success
+    }
+
+    pub(crate) fn ok<T, F>(self, f: F) -> Result<T> where F: FnOnce() -> T {
+        if self.is_success() {
+            Ok(f())
+        } else {
+            Err(self)
+        }
     }
 }
 
@@ -73,10 +82,9 @@ pub unsafe fn get_device_list() -> Result<DeviceList> {
     let mut count: size_t = 0;
     let count_ptr = &mut count;
     let error: TicError = ffi::tic_list_connected_devices(devices, count_ptr).into();
+    debug!("{} devices found", count);
 
-    if !error.is_success() {
-        return Err(error);
-    }
+    error.ok(|| ())?;
 
     let devices_array : &[*mut ffi::tic_device] = std::slice::from_raw_parts_mut(devices_raw_ptr, count as usize) ;
     let tics : Vec<Device> = devices_array.into_iter().map(|&e| e.into()).collect();
